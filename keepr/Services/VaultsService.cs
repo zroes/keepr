@@ -44,6 +44,12 @@ public class VaultsService
     return vaultToEdit;
   }
 
+  internal List<Vault> GetMyVaults(string creatorId)
+  {
+    List<Vault> vaults = _repo.GetMyVaults(creatorId);
+    return vaults;
+  }
+
   internal Vault GetOne(int vaultId, string creatorId)
   {
     Vault vault = _repo.GetOne(vaultId);
@@ -52,5 +58,11 @@ public class VaultsService
     if (vault.IsPrivate == true && vault.CreatorId != creatorId)
       throw new Exception("You don't have access to this vault; No vault found at id " + vaultId);
     return vault;
+  }
+
+  internal List<Vault> GetVaults(string profileId)
+  {
+    List<Vault> vaults = _repo.GetVaults(profileId);
+    return vaults;
   }
 }

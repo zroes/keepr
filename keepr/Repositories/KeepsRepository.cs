@@ -51,6 +51,28 @@ public class KeepsRepository
     return keeps;
   }
 
+  internal List<Keep> GetKeeps(string profileId)
+  {
+    string sql = @"
+    SELECT
+    k.*,
+    COUNT(vk.id) AS kept,
+    act.*
+    FROM keeps k
+    JOIN accounts act ON act.id = k.creatorId
+    LEFT JOIN vaultkeeps vk ON vk.keepId = k.id
+    WHERE k.creatorId = @profileId
+    GROUP BY (k.id)
+    ;";
+    List<Keep> keeps = _db.Query<Keep, Account, Keep>(sql, (k, act) =>
+    {
+      k.Creator = act;
+      return k;
+    }, new { profileId }).ToList();
+
+    return keeps;
+  }
+
   internal Keep GetOne(int keepId)
   {
     string sql = @"

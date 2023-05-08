@@ -3,10 +3,11 @@ namespace keepr.Services;
 public class KeepsService
 {
   private readonly KeepsRepository _repo;
-
-  public KeepsService(KeepsRepository repo)
+  private readonly VaultsService _vaultsService;
+  public KeepsService(KeepsRepository repo, VaultsService vaultsService)
   {
     _repo = repo;
+    _vaultsService = vaultsService;
   }
 
   internal List<Keep> GetAll()
@@ -57,5 +58,11 @@ public class KeepsService
 
     return $"{keepToDelete.Name} was successfully deleted";
 
+  }
+
+  internal List<Keep> GetKeeps(string profileId)
+  {
+    List<Keep> keeps = _repo.GetKeeps(profileId);
+    return keeps;
   }
 }

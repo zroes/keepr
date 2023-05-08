@@ -43,6 +43,18 @@ public class VaultsRepository
     _db.Execute(sql, vaultToEdit);
   }
 
+  internal List<Vault> GetMyVaults(string creatorId)
+  {
+    string sql = @"
+    SELECT *
+    FROM vaults 
+    WHERE vaults.creatorId = @creatorId;
+    ;";
+    List<Vault> vaults = _db.Query<Vault>(sql, new { creatorId }).ToList();
+    return vaults;
+
+  }
+
   internal Vault GetOne(int vaultId)
   {
     string sql = @"
@@ -61,5 +73,16 @@ public class VaultsRepository
     }, new { vaultId }).FirstOrDefault();
 
     return vault;
+  }
+
+  internal List<Vault> GetVaults(string profileId)
+  {
+    string sql = @"
+    SELECT *
+    FROM vaults 
+    WHERE vaults.creatorId = @profileId AND vaults.isPrivate = false;
+    ;";
+    List<Vault> vaults = _db.Query<Vault>(sql, new { profileId }).ToList();
+    return vaults;
   }
 }

@@ -16,3 +16,8 @@ public class Keep : Generic
   public int Kept { get; set; }
 
 }
+
+public class KeepInVault : Keep
+{
+  public int VaultKeepId { get; set; }
+}
