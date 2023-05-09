@@ -15,4 +15,17 @@ public class ProfilesRepository
     Profile prof = _db.Query<Profile>(sql, new { profileId }).FirstOrDefault();
     return prof;
   }
+
+  internal void UpdateProfile(Profile profToEdit)
+  {
+    string sql = @"
+    UPDATE accounts
+    SET
+    name = @Name,
+    picture = @Picture,
+    coverImg = @CoverImg
+    WHERE id = @Id
+    ;";
+    _db.Execute(sql, profToEdit);
+  }
 }

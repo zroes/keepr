@@ -1,16 +1,16 @@
-<template>
-  <div class="about text-center">
-    <h1>Welcome {{ account.name }}</h1>
-    <img class="rounded" :src="account.picture" alt="" />
-    <p>{{ account.email }}</p>
-  </div>
-</template>
+<template></template>
 
 <script>
-import { computed } from 'vue'
+import { computed, onMounted, watchEffect } from 'vue'
 import { AppState } from '../AppState'
+import { router } from "../router.js"
+import { logger } from "../utils/Logger.js"
 export default {
   setup() {
+    watchEffect(() => {
+      if (AppState.account.id)
+        router.push({ name: 'Profile', params: { profileId: AppState.account.id } })
+    })
     return {
       account: computed(() => AppState.account)
     }

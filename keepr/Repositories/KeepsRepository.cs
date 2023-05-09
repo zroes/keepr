@@ -73,7 +73,7 @@ public class KeepsRepository
     return keeps;
   }
 
-  internal Keep GetOne(int keepId)
+  internal Keep GetOne(int keepId, bool check)
   {
     string sql = @"
     SELECT
@@ -92,6 +92,20 @@ public class KeepsRepository
       k.Creator = act;
       return k;
     }, new { keepId }).FirstOrDefault();
+
+
+    if (check)
+    {
+      keep.Views = keep.Views + 1;
+      sql = @"
+    UPDATE keeps
+    SET
+    views = @Views
+    WHERE id = @Id
+    ;";
+      _db.Execute(sql, keep);
+    }
+
     return keep;
   }
 
@@ -99,9 +113,9 @@ public class KeepsRepository
   {
     string sql = @"
       INSERT INTO keeps
-        (name, description, img, creatorId)
+        (name, description, img, creatorId, views)
       VALUES
-        (@Name, @Description, @Img, @CreatorId);
+        (@Name, @Description, @Img, @CreatorId, @Views);
       SELECT LAST_INSERT_ID();
     ;";
 

@@ -1,64 +1,64 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
+  <nav class="d-flex my-1 justify-content-between px-3 elevation-c">
+    <div class="d-flex align-items-center">
+      <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
+
+        <h4 class="selectable ff-ox mb-0 text-dark bg-primary px-3 fw-bold p-1 rounded-pill">Home</h4>
+
+      </router-link>
+      <div class="dropdown user-select-none">
+        <h4 class="dropdown-toggle selectable ff-ox mb-0 text-dark rounded-pill p-1 px-3" type="button"
+          id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Create <i class="mdi mdi-menu-down"></i>
+        </h4>
+        <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton1">
+          <li data-bs-toggle="modal" data-bs-target="#create-keep"><span class="dropdown-item rounded">new keep</span>
+          </li>
+          <li><span class="dropdown-item rounded">new vault</span></li>
+        </ul>
       </div>
-    </router-link>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarText"
-      aria-controls="navbarText"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-        <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
-          </router-link>
-        </li>
-      </ul>
-      <!-- LOGIN COMPONENT HERE -->
-      <Login />
+    </div>
+
+    <div class="justify-content-center">
+      <img class="mb-3" src="../assets/img/Keepr logo.png" alt="">
+    </div>
+    <!-- LOGIN COMPONENT HERE -->
+
+    <div class="ms-md-5">
+      <div class="ms-md-5">
+        <div class="ms-md-5">
+          <div class="my-3 ms-md-5">
+            <Login />
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
+  <!-- <div class="border-top border-light border-5"></div> -->
+  <MyModal id="create-keep">
+    <template #body>
+      <KeepForm />
+    </template>
+  </MyModal>
 </template>
 
 <script>
 import Login from './Login.vue'
+import MyModal from "./MyModal.vue"
 export default {
   setup() {
     return {}
   },
-  components: { Login }
+  components: { Login, MyModal }
 }
 </script>
 
-<style scoped>
-a:hover {
-  text-decoration: none;
+<style>
+.ff-ox {
+  font-family: 'Oxygen', sans-serif;
 }
 
-.nav-link {
-  text-transform: uppercase;
+.elevation-c {
+  box-shadow: 0px 2px 4px #2d2d2d1b, 0px 2px 0px #f9f6fa;
 }
-
-.navbar-nav .router-link-exact-active {
-  border-bottom: 2px solid var(--bs-success);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-@media screen and (min-width: 768px) {
-  nav {
-    height: 64px;
-  }
-}
-
 </style>

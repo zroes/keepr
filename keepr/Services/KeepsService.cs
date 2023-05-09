@@ -20,14 +20,14 @@ public class KeepsService
   {
     keepData.CreatorId = userInfo.Id;
     int keepId = _repo.PostKeep(keepData);
-    Keep keep = GetOne(keepId);
+    Keep keep = GetOne(keepId, false);
     keep.Creator = userInfo;
     return keep;
   }
 
-  internal Keep GetOne(int keepId)
+  internal Keep GetOne(int keepId, bool check)
   {
-    Keep keep = _repo.GetOne(keepId);
+    Keep keep = _repo.GetOne(keepId, check);
     if (keep == null)
       throw new Exception("that Id is invalid! -->" + keepId);
     return keep;
@@ -35,7 +35,7 @@ public class KeepsService
 
   internal Keep Edit(Keep editData)
   {
-    Keep keepToEdit = GetOne(editData.Id);
+    Keep keepToEdit = GetOne(editData.Id, false);
     if (keepToEdit.CreatorId != editData.CreatorId)
       throw new Exception("You don't have permission to edit " + keepToEdit.Name);
 
@@ -51,7 +51,7 @@ public class KeepsService
 
   internal string Delete(int keepId, string creatorId)
   {
-    Keep keepToDelete = GetOne(keepId);
+    Keep keepToDelete = GetOne(keepId, false);
     if (keepToDelete.CreatorId != creatorId)
       throw new Exception("You don't have permission to delete " + keepToDelete.Name);
     _repo.Delete(keepId);

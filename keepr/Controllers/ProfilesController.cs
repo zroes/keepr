@@ -7,12 +7,14 @@ public class ProfilesController : ControllerBase
   private readonly ProfilesService _profilesService;
   private readonly KeepsService _keepsService;
   private readonly VaultsService _vaultsService;
+  private readonly Auth0Provider _auth;
 
-  public ProfilesController(ProfilesService profilesService, KeepsService keepsService, VaultsService vaultsService)
+  public ProfilesController(ProfilesService profilesService, KeepsService keepsService, VaultsService vaultsService, Auth0Provider auth)
   {
     _profilesService = profilesService;
     _keepsService = keepsService;
     _vaultsService = vaultsService;
+    _auth = auth;
   }
 
 
@@ -52,6 +54,22 @@ public class ProfilesController : ControllerBase
     {
       List<Vault> vaults = _vaultsService.GetVaults(profileId);
       return Ok(vaults);
+    }
+    catch (Exception e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
+
+  [Authorize]
+  [HttpPut]
+  public async Task<ActionResult<Profile>> UpdateProfile([FromBody] Profile profileData)
+  {
+    try
+    {
+      Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
+      Profile prof = _profilesService.UpdateProfile(userInfo.Id, profileData);
+      return Ok(prof);
     }
     catch (Exception e)
     {
