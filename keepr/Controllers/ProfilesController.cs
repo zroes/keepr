@@ -48,12 +48,19 @@ public class ProfilesController : ControllerBase
   }
 
   [HttpGet("{profileId}/vaults")]
-  public ActionResult<List<Vault>> GetVaults(string profileId)
+  public async Task<ActionResult<List<Vault>>> GetVaults(string profileId)
   {
     try
     {
-      List<Vault> vaults = _vaultsService.GetVaults(profileId);
-      return Ok(vaults);
+      Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
+
+      List<Vault> allVaults = _vaultsService.GetVaults(profileId);
+      List<Vault> publicVaults = allVaults.Where(vault => vault.IsPrivate == false).ToList();
+
+      if (userInfo != null && profileId == userInfo.Id)
+        return Ok(allVaults);
+
+      return Ok(publicVaults);
     }
     catch (Exception e)
     {

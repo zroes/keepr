@@ -32,4 +32,10 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+img {
+  height: 20vh;
+  object-fit: cover;
+  width: 100%;
+}
+</style>

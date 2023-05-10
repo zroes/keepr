@@ -34,7 +34,7 @@ CREATE TABLE
         id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
         creatorId VARCHAR(80) NOT NULL,
         name VARCHAR(100) NOT NULL,
-        description VARCHAR(500) NOT NULL,
+        description VARCHAR(500) DEFAULT 'blahblah',
         img VARCHAR(255) NOT NULL,
         isPrivate BOOLEAN NOT NULL DEFAULT false,
         Foreign Key (creatorId) REFERENCES accounts(id) ON DELETE CASCADE

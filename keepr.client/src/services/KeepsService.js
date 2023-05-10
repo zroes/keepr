@@ -26,6 +26,12 @@ class KeepsService {
     AppState.keeps.push(new Keep(res.data))
   }
 
+  async deleteKeep(keepId) {
+    const res = await api.delete('api/keeps/' + keepId)
+    logger.log("[deleting keep]", res.data)
+    AppState.keeps = AppState.keeps.filter(k => k.id != keepId)
+  }
+
 }
 
 export const keepsService = new KeepsService()

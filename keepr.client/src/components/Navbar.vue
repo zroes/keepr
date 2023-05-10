@@ -14,7 +14,8 @@
         <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton1">
           <li data-bs-toggle="modal" data-bs-target="#create-keep"><span class="dropdown-item rounded">new keep</span>
           </li>
-          <li><span class="dropdown-item rounded">new vault</span></li>
+          <li data-bs-toggle="modal" data-bs-target="#create-vault"><span class="dropdown-item rounded">new vault</span>
+          </li>
         </ul>
       </div>
     </div>
@@ -40,16 +41,23 @@
       <KeepForm />
     </template>
   </MyModal>
+  <MyModal id="create-vault">
+    <template #body>
+      <VaultForm />
+    </template>
+  </MyModal>
 </template>
 
 <script>
 import Login from './Login.vue'
 import MyModal from "./MyModal.vue"
+import VaultForm from "./VaultForm.vue"
+
 export default {
   setup() {
     return {}
   },
-  components: { Login, MyModal }
+  components: { Login, MyModal, VaultForm }
 }
 </script>
 

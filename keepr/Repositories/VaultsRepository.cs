@@ -80,7 +80,7 @@ public class VaultsRepository
     string sql = @"
     SELECT *
     FROM vaults 
-    WHERE vaults.creatorId = @profileId AND vaults.isPrivate = false;
+    WHERE vaults.creatorId = @profileId;
     ;";
     List<Vault> vaults = _db.Query<Vault>(sql, new { profileId }).ToList();
     return vaults;

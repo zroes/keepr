@@ -2,13 +2,22 @@
   <div class="container-fluid my-3" v-if="profile">
     <div class="row justify-content-center">
       <div class="col-md-7 text-center">
-        <div class="position-relative mb-5">
+        <div class="position-relative mb-3">
           <img :src="profile.coverImg" class="img-fluid rounded" alt="">
           <div class="position-absolute move">
             <img :src="profile.picture" alt="" class="rounded prof">
           </div>
         </div>
-
+        <div class="d-flex justify-content-end" v-if="route.params.profileId == accountId">
+          <h5 class="ff-ox user-select-none selectable rounded px-2" data-bs-toggle="dropdown">•••</h5>
+          <ul class="dropdown-menu py-0">
+            <li><span class="dropdown-item selectable" data-bs-toggle="modal" data-bs-target="#edit-profile">edit</span>
+            </li>
+          </ul>
+        </div>
+        <div v-else class="hidden">
+          <p>•</p>
+        </div>
       </div>
     </div>
     <div class="row justify-content-center">
@@ -17,14 +26,7 @@
         <div class="d-flex justify-content-evenly">
           <h5>{{ vaults.length }} vaults | {{ keeps.length }} keeps</h5>
         </div>
-        <div class="d-flex justify-content-end">
-          <h5 v-if="route.params.profileId == accountId" class="ff-ox user-select-none selectable rounded px-2"
-            data-bs-toggle="dropdown">•••</h5>
-          <ul class="dropdown-menu py-0">
-            <li><span class="dropdown-item selectable" data-bs-toggle="modal" data-bs-target="#edit-profile">edit</span>
-            </li>
-          </ul>
-        </div>
+
 
       </div>
     </div>
@@ -34,7 +36,9 @@
         <h2>Vaults:</h2>
         <div class="row">
           <div class="col-md-4 px-md-2" v-for="vault in vaults">
-            <VaultCard :vault="vault" />
+            <router-link :to="{ name: 'Vault', params: { vaultId: vault.id } }">
+              <VaultCard :vault="vault" />
+            </router-link>
           </div>
         </div>
         <h2>Keeps:</h2>
@@ -51,6 +55,7 @@
       <KeepDetails :keep="activeKeep" />
     </template>
   </MyModal>
+
   <MyModal id="edit-profile">
     <template #body>
       <ProfileForm />

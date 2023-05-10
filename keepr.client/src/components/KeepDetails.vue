@@ -16,9 +16,15 @@
             <p>{{ keep.keptCount }}</p>
           </div>
         </div>
-        <div class="">
+
+        <div class="" :class="keep.creatorId == account.id ? 'parent' : ''">
           <h3>{{ keep.name }}</h3>
           <p class="text-start">{{ keep.description }}</p>
+          <div class="child my-2">
+            <button :disabled="keep.creatorId != account.id" class="btn border-danger text-danger selectable"
+              @click="deleteKeep(keep.id)">Delete
+              Keep</button>
+          </div>
         </div>
         <p>data bottom</p>
       </div>
@@ -32,6 +38,8 @@ import { AppState } from "../AppState.js"
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
 import { Keep } from "../models/Keep.js"
+import { keepsService } from "../services/KeepsService.js"
+import { Modal } from "bootstrap"
 export default {
   props: {
     keep: { type: Keep, required: true }
@@ -39,6 +47,18 @@ export default {
   setup() {
     // private variables and methods here
     return {
+      account: computed(() => AppState.account),
+
+      async deleteKeep(keepId) {
+        try {
+          if (await Pop.confirm("are you sure you want to delete this?", "this action is permanent"))
+            await keepsService.deleteKeep(keepId)
+
+          Modal.getOrCreateInstance('#keep-details').hide()
+        } catch (error) {
+          Pop.error(error)
+        }
+      }
       // public variables and methods here
     }
   },
@@ -57,5 +77,16 @@ export default {
 
 .bg-det {
   background-color: #fef6f0;
+}
+
+.child {
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+  /* background-color: #dc3545;
+  color: #f7f5f5; */
+}
+
+.parent:hover .child {
+  opacity: 100;
 }
 </style>

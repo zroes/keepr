@@ -5,7 +5,7 @@
       <i class="mdi mdi-close my-1 px-1 selectable rounded" data-bs-dismiss="modal"></i>
     </div>
 
-    <form @submit="createKeep()" class="p-3">
+    <form @submit.prevent="createKeep()" class="p-3">
       <input class="m-1" type="text" name="" id="" placeholder="Title..." v-model="editable.name">
       <input class="m-1" type="url" name="" id="" placeholder="Image URL..." v-model="editable.img">
       <textarea class="mt-5 mb-2 m-1" type="text" name="" id="" placeholder="Keep Description..."
