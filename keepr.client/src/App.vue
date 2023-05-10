@@ -6,7 +6,7 @@
     <router-view />
   </main>
   <footer class="bg-dark text-light">
-    Made with 💖 by CodeWorks
+    🤖
   </footer>
 </template>
 
@@ -50,6 +50,14 @@ export default {
   font-weight: 400;
 }
 
+.prof {
+  height: 5vh;
+  border-radius: 25%;
+}
+
+.ff-ox {
+  font-family: 'Oxygen', sans-serif;
+}
 
 footer {
   display: grid;

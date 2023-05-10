@@ -4,7 +4,7 @@
       <div class="col-12 col-md-10">
         <div class="masonry-with-columns">
           <div class="mb-4" v-for="(keep, index) in keeps" @click="setActive(keep.id)">
-            <KeepCard :keep="keep" class="selectable" />
+            <KeepCard :keep="keep" class="selectable rounded" />
           </div>
         </div>
       </div>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from "vue"
+import { computed, onMounted, watchEffect } from "vue"
 import { AppState } from "../AppState.js"
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
@@ -27,6 +27,7 @@ import KeepCard from "../components/KeepCard.vue"
 import MyModal from "../components/MyModal.vue"
 import { Modal } from "bootstrap"
 import KeepDetails from "../components/KeepDetails.vue"
+import { profilesService } from "../services/ProfilesService.js"
 
 
 export default {
@@ -40,6 +41,20 @@ export default {
         Pop.error(error)
       }
     }
+
+    async function getMyVaults() {
+      try {
+        await profilesService.getVaults(AppState.account.id)
+      } catch (error) {
+        Pop.error(error.response.data)
+      }
+    }
+
+    watchEffect(() => {
+      AppState.account.id
+      getMyVaults()
+    })
+
     onMounted(() => {
       getAllKeeps()
     })
@@ -47,6 +62,7 @@ export default {
       // public variables and methods here
       keeps: computed(() => AppState.keeps),
       activeKeep: computed(() => AppState.activeKeep),
+      vaults: computed(() => AppState.vaults),
       async setActive(keepId) {
         try {
           await keepsService.setActive(keepId)

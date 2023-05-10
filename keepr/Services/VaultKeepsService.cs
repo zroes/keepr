@@ -3,14 +3,19 @@ namespace keepr.Services;
 public class VaultKeepsService
 {
   private readonly VaultKeepsRepository _repo;
+  private readonly VaultsService _vaultsService;
 
-  public VaultKeepsService(VaultKeepsRepository repo)
+  public VaultKeepsService(VaultKeepsRepository repo, VaultsService vaultsService)
   {
     _repo = repo;
+    _vaultsService = vaultsService;
   }
 
   internal VaultKeep CreateLink(VaultKeep vkData)
   {
+    Vault vault = _vaultsService.GetOne(vkData.VaultId, vkData.CreatorId);
+    if (vault.CreatorId != vkData.CreatorId)
+      throw new Exception("You can't do that");
     int id = _repo.Link(vkData);
     vkData.Id = id;
     return vkData;
@@ -34,8 +39,11 @@ public class VaultKeepsService
     return "deletion successful";
   }
 
-  internal List<KeepInVault> GetKeepsInVault(int vaultId, string id)
+  internal List<KeepInVault> GetKeepsInVault(int vaultId, string userId)
   {
+    Vault vault = _vaultsService.GetOne(vaultId, userId);
+    // if (vault.CreatorId != userId && vault.IsPrivate == true)
+    // throw new Exception("You cannot access the keeps in this vault");
     List<KeepInVault> keepsInVault = _repo.GetKeepsInVault(vaultId);
     return keepsInVault;
   }

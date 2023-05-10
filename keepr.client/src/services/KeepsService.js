@@ -12,17 +12,27 @@ class KeepsService {
     logger.log("[GETTING KEEPS]", AppState.keeps)
   }
 
+  async getKeepsInVault(vaultId) {
+    AppState.keeps = null
+    const res = await api.get('api/vaults/' + vaultId + '/keeps')
+    AppState.keeps = res.data.map(k => new Keep(k))
+    logger.log("[Getting keeps in vault]", AppState.keeps)
+  }
+
   async setActive(keepId) {
     const res = await api.get('api/keeps/' + keepId)
-    logger.log('[setting active]', res.data)
+    const keepActive = AppState.keeps.find(k => k.id == keepId)
     AppState.activeKeep = new Keep(res.data)
-    // AppState.activeKeep = AppState.keeps.find(k => k.id == keepId)
+    AppState.activeKeep.vaultKeepId = keepActive.vaultKeepId
+    logger.log('[setting active]', AppState.activeKeep)
     // AppState.activeKeep.views++
   }
 
-  async createKeep(keepData) {
+  async createKeep(keepData, profileId) {
     logger.log("[Creating keep]", keepData)
     const res = await api.post('api/keeps', keepData)
+    // FIXME if there's a profileId AND it's not the user id  don't push it into this array
+    if (profileId && profileId != AppState.user.id) return
     AppState.keeps.push(new Keep(res.data))
   }
 

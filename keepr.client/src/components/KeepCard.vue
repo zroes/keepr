@@ -54,9 +54,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.prof {
-  height: 5vh;
-  border-radius: 40%;
-}
-</style>
+<style scoped></style>

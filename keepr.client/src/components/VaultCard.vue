@@ -6,6 +6,7 @@
       <div class="d-flex justify-content-between rounded h-100 px-3 align-items-end">
         <h4 class="ff-marko">{{ vault.name }}</h4>
       </div>
+      <h5 v-if="vault.isPrivate" class="text-end text-danger px-1"><i class="mdi mdi-lock"></i></h5>
     </div>
   </div>
 </template>

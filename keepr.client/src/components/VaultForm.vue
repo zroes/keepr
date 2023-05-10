@@ -6,8 +6,8 @@
     </div>
 
     <form @submit.prevent="createVault()" class="p-3">
-      <input class="m-1" type="text" name="" id="" placeholder="Title..." v-model="editable.name">
-      <input class="m-1" type="url" name="" id="" placeholder="Image URL..." v-model="editable.img">
+      <input required class="m-1" type="text" name="" id="" placeholder="Title..." v-model="editable.name">
+      <input required class="m-1" type="url" name="" id="" placeholder="Image URL..." v-model="editable.img">
 
 
       <div class="form-text text-end mt-4">Private vaults can only be seen by you.</div>

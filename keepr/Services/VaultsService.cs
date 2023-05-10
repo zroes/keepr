@@ -56,7 +56,7 @@ public class VaultsService
     if (vault == null)
       throw new Exception("No vault found at id " + vaultId);
     if (vault.IsPrivate == true && vault.CreatorId != creatorId)
-      throw new Exception("You don't have access to this vault; No vault found at id " + vaultId);
+      throw new Exception("No vault found at id " + vaultId);
     return vault;
   }
 

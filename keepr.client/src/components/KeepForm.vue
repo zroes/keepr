@@ -6,9 +6,9 @@
     </div>
 
     <form @submit.prevent="createKeep()" class="p-3">
-      <input class="m-1" type="text" name="" id="" placeholder="Title..." v-model="editable.name">
-      <input class="m-1" type="url" name="" id="" placeholder="Image URL..." v-model="editable.img">
-      <textarea class="mt-5 mb-2 m-1" type="text" name="" id="" placeholder="Keep Description..."
+      <input required class="m-1" type="text" name="" id="" placeholder="Title..." v-model="editable.name">
+      <input required class="m-1" type="url" name="" id="" placeholder="Image URL..." v-model="editable.img">
+      <textarea required class="mt-5 mb-2 m-1" type="text" name="" id="" placeholder="Keep Description..."
         v-model="editable.description"></textarea>
       <div class="text-end mt-4">
         <button class="btn btn-dark">Create</button>
@@ -23,16 +23,18 @@ import { computed, ref } from "vue"
 import Pop from "../utils/Pop.js"
 import { keepsService } from "../services/KeepsService.js"
 import { Modal } from "bootstrap"
+import { useRoute } from "vue-router"
 
 export default {
   setup() {
+    const route = useRoute()
     // private variables and methods here
     const editable = ref({})
     return {
       editable,
       async createKeep() {
         try {
-          await keepsService.createKeep(editable.value)
+          await keepsService.createKeep(editable.value, route.params.profileId)
           Modal.getOrCreateInstance('#create-keep').hide()
           editable.value = {}
         } catch (error) {

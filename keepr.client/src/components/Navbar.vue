@@ -6,7 +6,7 @@
         <h4 class="selectable ff-ox mb-0 text-dark bg-primary px-3 fw-bold p-1 rounded-pill">Home</h4>
 
       </router-link>
-      <div class="dropdown user-select-none">
+      <div class="dropdown user-select-none" :class="account.id == undefined ? 'disabled hide' : ''">
         <h4 class="dropdown-toggle selectable ff-ox mb-0 text-dark rounded-pill p-1 px-3" type="button"
           id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
           Create <i class="mdi mdi-menu-down"></i>
@@ -49,24 +49,32 @@
 </template>
 
 <script>
+import { computed } from "vue"
 import Login from './Login.vue'
 import MyModal from "./MyModal.vue"
 import VaultForm from "./VaultForm.vue"
+import { AppState } from "../AppState.js"
 
 export default {
   setup() {
-    return {}
+    return {
+      account: computed(() => AppState.account)
+    }
   },
   components: { Login, MyModal, VaultForm }
 }
 </script>
 
-<style>
-.ff-ox {
-  font-family: 'Oxygen', sans-serif;
-}
-
+<style scoped>
 .elevation-c {
   box-shadow: 0px 2px 4px #2d2d2d1b, 0px 2px 0px #f9f6fa;
+}
+
+.hide {
+  opacity: 0;
+}
+
+.disabled::after {
+  cursor: default !important;
 }
 </style>

@@ -43,8 +43,8 @@
         </div>
         <h2>Keeps:</h2>
         <div class="masonry-with-columns my-2">
-          <div class="mb-4" v-for="(keep, index) in keeps" @click="setActive(keep.id)">
-            <KeepCard :keep="keep" class="selectable" />
+          <div class="mb-4" v-for="(keep, index) in keeps" @click="setActive(keep.id)" :key="index">
+            <KeepCard :keep="keep" class="selectable rounded" />
           </div>
         </div>
       </div>

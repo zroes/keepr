@@ -12,10 +12,22 @@ class VaultsService {
     AppState.vaults.push(new Vault(res.data))
   }
 
+  async deleteVault(vaultId) {
+    const res = await api.delete('api/vaults/' + vaultId)
+    logger.log("[Vault deleted]", res.data)
+  }
+
   async getVault(vaultId) {
     const res = await api.get('api/vaults/' + vaultId)
     logger.log('[GETTING vault]')
     AppState.activeVault = new Vault(res.data)
+  }
+
+  async toggleVis(isPrivate, vaultId) {
+    isPrivate = !isPrivate
+    const res = await api.put('api/vaults/' + vaultId, { isPrivate })
+    logger.log("[Toggled]", res.data)
+    AppState.activeVault.isPrivate = isPrivate
   }
 }
 
