@@ -21,7 +21,7 @@
     </div>
 
     <div class="justify-content-center">
-      <img class="mb-3" src="../assets/img/Keepr logo.png" alt="">
+      <img class="mb-3" src="../assets/img/Keepr-logo.png" alt="">
     </div>
     <!-- LOGIN COMPONENT HERE -->
 
