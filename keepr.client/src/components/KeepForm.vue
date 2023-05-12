@@ -5,10 +5,15 @@
       <i class="mdi mdi-close my-1 px-1 selectable rounded" data-bs-dismiss="modal"></i>
     </div>
 
-    <form @submit.prevent="createKeep()" class="p-3">
-      <input required class="m-1" type="text" name="" id="" placeholder="Title..." v-model="editable.name">
-      <input required class="m-1" type="url" name="" id="" placeholder="Image URL..." v-model="editable.img">
-      <textarea required class="mt-5 mb-2 m-1" type="text" name="" id="" placeholder="Keep Description..."
+    <form @submit.prevent="createKeep()" class="p-3 row">
+      <div class="col-6 px-1">
+
+        <input required class="my-1 w-100" type="text" name="" id="" placeholder="Title..." v-model="editable.name">
+      </div>
+      <div class="col-6 px-1">
+        <input required class="my-1 w-100" type="url" name="" id="" placeholder="Image URL..." v-model="editable.img">
+      </div>
+      <textarea required class="mt-4 mb-2 col-12" type="text" name="" id="" placeholder="Keep Description..."
         v-model="editable.description"></textarea>
       <div class="text-end mt-4">
         <button class="btn btn-dark">Create</button>
@@ -36,6 +41,7 @@ export default {
         try {
           await keepsService.createKeep(editable.value, route.params.profileId, route.params.vaultId)
           Modal.getOrCreateInstance('#create-keep').hide()
+          Pop.toast("Creation successful", "success", "center", 1337)
           editable.value = {}
         } catch (error) {
           Pop.error(error)

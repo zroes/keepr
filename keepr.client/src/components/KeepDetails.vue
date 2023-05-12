@@ -94,6 +94,8 @@ export default {
             "are you sure you want to delete this?", "this action is permanent")) {
             await keepsService.deleteKeep(keepId)
             Modal.getOrCreateInstance('#keep-details').hide()
+            Pop.toast("Delete successful", "success", "center", 1337)
+
           }
         } catch (error) {
           Pop.error(error)

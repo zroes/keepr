@@ -6,8 +6,15 @@
     </div>
 
     <form @submit.prevent="createVault()" class="p-3">
-      <input required class="m-1" type="text" name="" id="" placeholder="Title..." v-model="editable.name">
-      <input required class="m-1" type="url" name="" id="" placeholder="Image URL..." v-model="editable.img">
+      <div class="row">
+        <div class="col-6 px-1">
+          <input required class="my-1 w-100" type="text" name="" id="" placeholder="Title..." v-model="editable.name">
+        </div>
+        <div class="col-6 px-1">
+          <input required class="my-1 w-100" type="url" name="" id="" placeholder="Image URL..." v-model="editable.img">
+        </div>
+      </div>
+
 
 
       <div class="form-text text-end mt-4">Private vaults can only be seen by you.</div>
@@ -31,6 +38,7 @@ import { AppState } from "../AppState.js"
 import { Modal } from "bootstrap"
 import Pop from "../utils/Pop.js"
 import { vaultsService } from "../services/VaultsService.js"
+import { router } from "../router.js"
 
 export default {
   setup() {
@@ -40,7 +48,8 @@ export default {
       editable,
       async createVault() {
         try {
-          await vaultsService.createVault(editable.value)
+          const vaultId = await vaultsService.createVault(editable.value)
+          router.push('/vaults/' + vaultId)
           Modal.getOrCreateInstance('#create-vault').hide()
           editable.value = { isPrivate: false }
         } catch (error) {
