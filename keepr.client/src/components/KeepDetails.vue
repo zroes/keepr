@@ -26,9 +26,12 @@
         <div class="row">
           <div class="col-7 d-flex align-items-center" v-if="!route.params.vaultId">
             <div class="d-flex" v-if="account.id">
+
               <select class="form-select" aria-label="select vault" v-model="selected">
                 <option selected>Add to vault</option>
-                <option v-for="(vault, index) in vaults" :value="vault.id">{{ vault.name }}</option>
+                <option
+                  v-for="(vault, index) in (route.params.profileId && route.params.profileId != account.id ? vaults2 : vaults)"
+                  :value="vault.id">{{ vault.name }}</option>
               </select>
               <button :disabled="disabled" @click="addToVault(keep.id)" class="ms-2 btn btn-info text-light">Add</button>
             </div>
@@ -68,6 +71,7 @@ import { vaultKeepsService } from "../services/VaultKeepsService.js"
 
 import { Modal } from "bootstrap"
 import { useRoute } from "vue-router"
+import { profilesService } from "../services/ProfilesService.js"
 
 export default {
   props: {
@@ -78,10 +82,19 @@ export default {
     const selected = ref('Add to vault')
     const route = useRoute()
 
+    async function getVaultsOnProfile() {
+      if (route.params.profileId != AppState.account.id) {
+        profilesService.getVaultsOnProfile(AppState.account.id)
+      }
+    }
+    onMounted(() => {
+      getVaultsOnProfile()
+    })
 
     return {
       account: computed(() => AppState.account),
       vaults: computed(() => AppState.vaults),
+      vaults2: computed(() => AppState.vaults2),
       activeVault: computed(() => AppState.activeVault),
       selected,
       route,
