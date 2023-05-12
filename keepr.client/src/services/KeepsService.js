@@ -37,6 +37,10 @@ class KeepsService {
       return
     // logger.log(vaultId)
     // logger.log(AppState.activeVault.creatorId, AppState.user.id)
+
+    if (vaultId && AppState.activeVault.creatorId != AppState.user.id)
+      return
+
     if (vaultId && AppState.activeVault.creatorId == AppState.user.id) {
       const vkData = { keepId: res.data.id, vaultId: vaultId }
       vaultKeepsService.addKeepToVault(vkData)
