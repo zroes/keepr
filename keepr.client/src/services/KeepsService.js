@@ -2,6 +2,7 @@ import { AppState } from "../AppState.js"
 import { Keep } from "../models/Keep.js"
 import { logger } from "../utils/Logger.js"
 import { api } from "./AxiosService.js"
+import { vaultKeepsService } from "./VaultKeepsService.js"
 
 class KeepsService {
 
@@ -28,11 +29,20 @@ class KeepsService {
     // AppState.activeKeep.views++
   }
 
-  async createKeep(keepData, profileId) {
+  async createKeep(keepData, profileId, vaultId) {
     logger.log("[Creating keep]", keepData)
     const res = await api.post('api/keeps', keepData)
-    // FIXME if there's a profileId AND it's not the user id  don't push it into this array
-    if (profileId && profileId != AppState.user.id) return
+
+    if (profileId && profileId != AppState.user.id)
+      return
+    // logger.log(vaultId)
+    // logger.log(AppState.activeVault.creatorId, AppState.user.id)
+    if (vaultId && AppState.activeVault.creatorId == AppState.user.id) {
+      const vkData = { keepId: res.data.id, vaultId: vaultId }
+      vaultKeepsService.addKeepToVault(vkData)
+      logger.log("adding k to v")
+    }
+
     AppState.keeps.push(new Keep(res.data))
   }
 

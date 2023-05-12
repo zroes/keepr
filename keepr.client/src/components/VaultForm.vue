@@ -1,7 +1,7 @@
 <template>
   <div class="pt-3 px-3 bg-form">
     <div class="d-flex justify-content-between mx-2">
-      <h3 class="form-title m-0">Add you Keep</h3>
+      <h3 class="form-title m-0">New Vault</h3>
       <i class="mdi mdi-close my-1 px-1 selectable rounded" data-bs-dismiss="modal"></i>
     </div>
 

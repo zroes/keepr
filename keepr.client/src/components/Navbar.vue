@@ -54,6 +54,7 @@ import Login from './Login.vue'
 import MyModal from "./MyModal.vue"
 import VaultForm from "./VaultForm.vue"
 import { AppState } from "../AppState.js"
+import KeepForm from "./KeepForm.vue"
 
 export default {
   setup() {
@@ -61,7 +62,7 @@ export default {
       account: computed(() => AppState.account)
     }
   },
-  components: { Login, MyModal, VaultForm }
+  components: { Login, MyModal, VaultForm, KeepForm }
 }
 </script>
 
