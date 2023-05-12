@@ -18,14 +18,9 @@
           </div>
         </div>
 
-        <div class="" :class="(keep.creatorId == account.id && !route.params.vaultId) ? 'parent' : ''">
+        <div class="">
           <h3>{{ keep.name }}</h3>
           <p class="text-start">{{ keep.description }}</p>
-          <div class="child my-2">
-            <button :disabled="keep.creatorId != account.id || route.params.vaultId"
-              class="btn border-danger text-danger btn-warning" @click="deleteKeep(keep.id)">Delete
-              Keep</button>
-          </div>
         </div>
         <!-- data bottom  -->
         <div class="row">
@@ -44,12 +39,17 @@
                 from vault</button>
             </div>
           </div>
-          <div class="col-5 d-flex justify-content-end" data-bs-toggle="modal" data-bs-target="#keep-details">
+          <div v-if="keep.creatorId != account.id" class="col-5 d-flex justify-content-end" data-bs-toggle="modal"
+            data-bs-target="#keep-details">
             <router-link class="d-flex align-items-center text-dark selectable rounded px-2 p-1"
               :to="{ name: 'Profile', params: { profileId: keep.creatorId } }">
               <img class="prof" :src="keep.creator.picture" alt="">
               <p class="m-0">{{ keep.creator.name }}</p>
             </router-link>
+          </div>
+          <div class="col-5 justify-content-end d-flex" v-else>
+            <button class="btn border-danger text-danger btn-warning" @click="deleteKeep(keep.id)">Delete
+              Keep</button>
           </div>
         </div>
       </div>
