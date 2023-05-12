@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid" v-if="vault">
     <div class="row justify-content-center mt-3">
-      <div class="col-4 justify-content-center">
+      <div class="col-md-4 justify-content-center">
         <div class="position-relative">
           <img class="img-fluid rounded size-it" :src="vault.imgUrl" :alt="vault.name">
           <div class="position-absolute gradient rounded bottom-0 text-light text-center ff-marko text-shadow">
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="row justify-content-center my-4">
-      <div class="col-2 text-center">
+      <div class="col-md-2 text-center">
         <h6 class="bg-secondary d-inline p-2 rounded-ish ff-ox">{{ keeps?.length }} Keeps</h6>
       </div>
     </div>
